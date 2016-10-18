@@ -16,28 +16,28 @@ namespace com.propig.util.Graph
     /// </summary>
     public class SquireGridGraph : GraphL
     {
-        private readonly int ROW;
-        private readonly int COL;
+        private readonly int _row;
+        private readonly int _col;
         public SquireGridGraph(int row, int col, bool isDirected = true)
             : base(row * col, isDirected)
         {
-            ROW = row;
-            COL = col;
+            _row = row;
+            _col = col;
         }
 
         public int GetVertexNumber(int row, int col)
         {
-            Debug.Assert(row >= 0 && row < ROW);
-            Debug.Assert(col >= 0 && col < COL);
+            Debug.Assert(row >= 0 && row < _row);
+            Debug.Assert(col >= 0 && col < _col);
 
-            return row * COL + col;
+            return row * _col + col;
         }
 
         public void GetRowAndColFromVertex(int vertex, out int row, out int col)
         {
             Debug.Assert(vertex >= 0 && vertex < VerticesNum());
-            row = vertex / COL;
-            col = vertex % COL;
+            row = vertex / _col;
+            col = vertex % _col;
         }
 
         public void SetNeighbor(int row, int col, Direction direction, int weight)
@@ -45,24 +45,24 @@ namespace com.propig.util.Graph
             switch (direction)
             {
                 case Direction.East:
-                    if (col + 1 >= COL)
+                    if (col + 1 >= _col)
                         return;
-                    SetEdge(row * COL + col, row * COL + col + 1, weight);
+                    SetEdge(row * _col + col, row * _col + col + 1, weight);
                     break;
                 case Direction.North:
                     if (row - 1 < 0)
                         return;
-                    SetEdge(row * COL + col, (row - 1) * COL + col, weight);
+                    SetEdge(row * _col + col, (row - 1) * _col + col, weight);
                     break;
                 case Direction.South:
-                    if (row + 1 >= ROW)
+                    if (row + 1 >= _row)
                         return;
-                    SetEdge(row * COL + col, (row + 1) * COL + col, weight);
+                    SetEdge(row * _col + col, (row + 1) * _col + col, weight);
                     break;
                 case Direction.West:
                     if (col - 1 < 0)
                         return;
-                    SetEdge(row * COL + col, row * COL + col - 1, weight);
+                    SetEdge(row * _col + col, row * _col + col - 1, weight);
                     break;
                 default:
                     throw new InvalidCastException("Direction Error");
@@ -74,24 +74,24 @@ namespace com.propig.util.Graph
             switch (direction)
             {
                 case Direction.East:
-                    if (col + 1 >= COL)
+                    if (col + 1 >= _col)
                         return;
-                    DelEdge(row * COL + col, row * COL + col + 1);
+                    DelEdge(row * _col + col, row * _col + col + 1);
                     break;
                 case Direction.North:
                     if (row - 1 < 0)
                         return;
-                    DelEdge(row * COL + col, (row - 1) * COL + col);
+                    DelEdge(row * _col + col, (row - 1) * _col + col);
                     break;
                 case Direction.South:
-                    if (row + 1 >= ROW)
+                    if (row + 1 >= _row)
                         return;
-                    DelEdge(row * COL + col, (row + 1) * COL + col);
+                    DelEdge(row * _col + col, (row + 1) * _col + col);
                     break;
                 case Direction.West:
                     if (col - 1 < 0)
                         return;
-                    DelEdge(row * COL + col, row * COL + col - 1);
+                    DelEdge(row * _col + col, row * _col + col - 1);
                     break;
                 default:
                     throw new InvalidCastException("Direction Error");
