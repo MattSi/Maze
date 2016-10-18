@@ -49,6 +49,7 @@
     <Compile Include="ITravel.cs" />
     <Compile Include="LList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SquireGridGraph.cs" />
     <Compile Include="VisitedMark.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
