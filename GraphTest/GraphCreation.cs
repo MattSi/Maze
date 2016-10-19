@@ -36,6 +36,28 @@ namespace GraphTest
         }
 
         [TestMethod]
+        public void Test_Vertex_Are_Connected()
+        {
+
+            GraphL g = new GraphL(7);
+            g.SetEdge(0, 1, 2);
+            g.SetEdge(0, 2, 1);
+            g.SetEdge(0, 3, 1);
+            g.SetEdge(0, 4, 1);
+            g.SetEdge(5, 1, 1);
+            g.SetEdge(5, 2, 1);
+            g.SetEdge(3, 6, 1);
+            g.SetEdge(5, 4, 1);
+            g.SetEdge(6, 4, 1);
+            g.SetEdge(6, 5, 1);
+
+
+            Assert.AreEqual(10, g.EdgeNum());
+            Assert.IsTrue(g.IsConnected(0, 3));
+            Assert.IsTrue(g .IsConnected(0, 4));
+            Assert.IsTrue(g.IsConnected(5, 1));
+        }
+        [TestMethod]
         public void Test_Dfs_Matrix_Directed()
         {
             Graph g = new GraphM(7);

@@ -1,4 +1,6 @@
-﻿namespace com.propig.util.Graph
+﻿using System;
+
+namespace com.propig.util.Graph
 {
     public class GraphL : Graph
     {
@@ -134,5 +136,23 @@
             }
         }
 
+        public override bool IsConnected(int fromVertex, int toVertex)
+        {
+            var temp = graList[fromVertex].Head;
+            while (temp.Next != null && temp.Next.Element.Vertex < toVertex)
+            {
+                temp = temp.Next;
+            }
+
+            if (temp.Next == null)
+            {
+                return false;
+            }
+            else if (temp.Next.Element.Vertex > toVertex)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

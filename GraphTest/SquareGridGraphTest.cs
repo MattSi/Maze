@@ -11,14 +11,16 @@ namespace GraphTest
     [TestClass]
     public class SquareGridGraphTest
     {
-        private int ROW = 2500;
-        private int COL = 2500;
+        private int ROW = 10;
+        private int COL = 10;
 
+        private StringBuilder stringBuilder = new StringBuilder();
         [TestMethod]
         public void Test_SGG_Creation()
         {
 
             var g = new SquireGridGraph(ROW, COL, false);
+            
 
             for (int i = 0; i < g.VerticesNum(); i++)
             {
@@ -31,11 +33,18 @@ namespace GraphTest
                 g.SetNeighbor(row, col, Direction.North, 1);
             }
 
+            ITravel dfs = new Dfs(g, preVisit);
+            dfs.Travel(16);
+            Assert.AreEqual("123", stringBuilder.ToString());
             Assert.AreEqual(12495000, g.EdgeNum());
             
         }
 
-        
+        private bool preVisit(Graph g, int v)
+        {
+            stringBuilder.Append(v.ToString() + ",");
+            return true;
+        }
     }
 
     

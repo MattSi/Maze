@@ -1,4 +1,6 @@
-﻿namespace com.propig.util.Graph
+﻿using System;
+
+namespace com.propig.util.Graph
 {
     public class GraphM : Graph
     {
@@ -78,6 +80,11 @@
             {
                 matrix[fromVertex][toVertex] = 0;
             }
+        }
+
+        public override bool IsConnected(int fromVertex, int toVertex)
+        {
+            return matrix[fromVertex][toVertex] > 0;
         }
     }
 }

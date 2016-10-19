@@ -76,7 +76,6 @@
         public abstract Edge NextEdge(Edge preEdge);
         public abstract void SetEdge(int fromVertex, int toVertex, int weight);
         public abstract void DelEdge(int fromVertex, int toVertex);
-        
-        
+        public abstract bool IsConnected(int fromVertex, int toVertex);
     }
 }

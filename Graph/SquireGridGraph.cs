@@ -40,33 +40,70 @@ namespace com.propig.util.Graph
             col = vertex % _col;
         }
 
-        public void SetNeighbor(int row, int col, Direction direction, int weight)
+        public bool SetNeighbor(int row, int col, Direction direction, int weight)
         {
             switch (direction)
             {
                 case Direction.East:
                     if (col + 1 >= _col)
-                        return;
+                        return false;
                     SetEdge(row * _col + col, row * _col + col + 1, weight);
                     break;
                 case Direction.North:
                     if (row - 1 < 0)
-                        return;
+                        return false;
                     SetEdge(row * _col + col, (row - 1) * _col + col, weight);
                     break;
                 case Direction.South:
                     if (row + 1 >= _row)
-                        return;
+                        return false;
                     SetEdge(row * _col + col, (row + 1) * _col + col, weight);
                     break;
                 case Direction.West:
                     if (col - 1 < 0)
-                        return;
+                        return false;
                     SetEdge(row * _col + col, row * _col + col - 1, weight);
                     break;
                 default:
                     throw new InvalidCastException("Direction Error");
             }
+            return true;
+        }
+
+        public bool GetNeighborVertex(int row, int col, Direction direction, out int row2, out int col2)
+        {
+            row2 = -1;
+            col2 = -1;
+            switch (direction)
+            {
+                case Direction.East:
+                    if (col + 1 >= _col)
+                        return false;
+                    row2 = row;
+                    col2 = col + 1;
+                    break;
+                case Direction.North:
+                    if (row - 1 < 0)
+                        return false;
+                    row2 = row - 1;
+                    col2 = col;
+                    break;
+                case Direction.South:
+                    if (row + 1 >= _row)
+                        return false;
+                    row2 = row + 1;
+                    col2 = col;
+                    break;
+                case Direction.West:
+                    if (col - 1 < 0)
+                        return false;
+                    row2 = row;
+                    col2 = col - 1;
+                    break;
+                default:
+                    throw new InvalidCastException("Direction Error");
+            }
+            return true;
         }
 
         public void RemoveNeighbor(int row, int col, Direction direction)

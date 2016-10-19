@@ -12,6 +12,7 @@
         int FromVertex(Edge oneEdge);
         int ToVertex(Edge oneEdge);
         int Weight(Edge oneEdge);
+        bool IsConnected(int fromVertex, int toVertex);
 
     }
 }
