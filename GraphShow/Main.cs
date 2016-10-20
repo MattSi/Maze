@@ -18,8 +18,8 @@ namespace GraphShow
         private int margin = 2;
         private int radius = 8;
         private int lastRow = -1, lastCol = -1;
-        private int ROW = 20;
-        private int COL = 20;
+        private int ROW = 8;
+        private int COL = 15;
         private Graphics g;
 
         public Main()
@@ -53,7 +53,7 @@ namespace GraphShow
 
             g = this.panelMain.CreateGraphics();
             g.Clear(this.panelMain.BackColor);
-            Pen pen = new Pen(Color.Yellow, 1);
+            Pen pen = new Pen(Color.Blue, 1);
             Brush brush = new SolidBrush(Color.Blue);
 
             for (int i = 0; i < graph.VerticesNum(); i++)
@@ -61,7 +61,8 @@ namespace GraphShow
                 int row, col;
                 int row2, col2;
                 graph.GetRowAndColFromVertex(i, out row, out col);
-                g.FillRectangle(brush, margin + col * width, margin + row * height, radius, radius);
+               // g.FillRectangle(brush, margin + col * width, margin + row * height, radius, radius);
+                g.FillEllipse(brush, margin + col * width, margin + row * height, radius, radius);
 
 
                 if (graph.SetNeighbor(row, col, Direction.East, 1))
@@ -92,7 +93,7 @@ namespace GraphShow
             }
 
             Random r = new Random(Environment.TickCount);
-            ITravel dfs = new Dfs(graph, preVisit);
+            ITravel dfs = new Bfs(graph, preVisit);
             dfs.Travel(r.Next(graph.VerticesNum()));
             pen.Dispose();
             brush.Dispose();
@@ -117,18 +118,20 @@ namespace GraphShow
             }
             else
             {
-                v2 = ((SquireGridGraph)graph).GetVertexNumber(lastRow, lastCol);
-                if (graph.IsConnected(v1, v2))
-                {
-                    g.DrawLine(pen, margin + col * width + radius / 2, margin + row * height + radius / 2,
+                //v2 = ((SquireGridGraph)graph).GetVertexNumber(lastRow, lastCol);
+                //if (graph.IsConnected(v1, v2))
+                //{
+                //    g.DrawLine(pen, margin + col * width + radius / 2, margin + row * height + radius / 2,
+                //                margin + lastCol * width + radius / 2, margin + lastRow * height + radius / 2);
+                //}
+                g.DrawLine(pen, margin + col * width + radius / 2, margin + row * height + radius / 2,
                                 margin + lastCol * width + radius / 2, margin + lastRow * height + radius / 2);
-                }
             }
             lastRow = row;
             lastCol = col;
             pen.Dispose();
             brush.Dispose();
-            //Thread.Sleep(20);
+            Thread.Sleep(20);
             return true;
         }
     }
