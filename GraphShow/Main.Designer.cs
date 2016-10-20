@@ -41,6 +41,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.textRow = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnGen2 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -96,6 +97,7 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.btnGen2);
             this.panel2.Controls.Add(this.btnTravel);
             this.panel2.Controls.Add(this.btnGen);
             this.panel2.Controls.Add(this.textCol);
@@ -110,7 +112,7 @@
             // 
             // btnTravel
             // 
-            this.btnTravel.Location = new System.Drawing.Point(431, 19);
+            this.btnTravel.Location = new System.Drawing.Point(534, 18);
             this.btnTravel.Name = "btnTravel";
             this.btnTravel.Size = new System.Drawing.Size(75, 23);
             this.btnTravel.TabIndex = 5;
@@ -159,6 +161,16 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Row:";
             // 
+            // btnGen2
+            // 
+            this.btnGen2.Location = new System.Drawing.Point(431, 19);
+            this.btnGen2.Name = "btnGen2";
+            this.btnGen2.Size = new System.Drawing.Size(75, 23);
+            this.btnGen2.TabIndex = 6;
+            this.btnGen2.Text = "Generate2";
+            this.btnGen2.UseVisualStyleBackColor = true;
+            this.btnGen2.Click += new System.EventHandler(this.btnGen2_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -198,6 +210,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textRow;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnGen2;
     }
 }
 

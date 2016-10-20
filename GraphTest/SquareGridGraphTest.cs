@@ -11,8 +11,8 @@ namespace GraphTest
     [TestClass]
     public class SquareGridGraphTest
     {
-        private int ROW = 10;
-        private int COL = 10;
+        private int ROW = 2000;
+        private int COL = 2000;
 
         private StringBuilder stringBuilder = new StringBuilder();
         [TestMethod]
@@ -33,10 +33,9 @@ namespace GraphTest
                 g.SetNeighbor(row, col, Direction.North, 1);
             }
 
-            ITravel dfs = new Dfs(g, preVisit);
+            ITravel dfs = new Bfs(g, preVisit);
             dfs.Travel(16);
-            Assert.AreEqual("123", stringBuilder.ToString());
-            Assert.AreEqual(12495000, g.EdgeNum());
+            Assert.AreEqual(1998000, g.EdgeNum());
             
         }
 
