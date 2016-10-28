@@ -16,7 +16,7 @@ namespace GraphShow
     {
         SquireGridGraph graph;
         private int margin = 20;
-        private int radius = 8;
+        private int radius = 9;
         private int lastRow = -1, lastCol = -1;
         private int ROW = 40;
         private int COL = 80;
@@ -34,11 +34,6 @@ namespace GraphShow
         }
 
         private void Main_Load(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
         {
             
         }
@@ -106,7 +101,7 @@ namespace GraphShow
 
             g = this.panelMain.CreateGraphics();
             g.Clear(this.panelMain.BackColor);
-            Pen pen = new Pen(Color.AliceBlue, 1);
+            Pen pen = new Pen(Color.Red, 1);
             Brush brush = new SolidBrush(Color.Blue);
 
             for(int i=0; i < graph.VerticesNum(); i++)
@@ -114,7 +109,7 @@ namespace GraphShow
                 int row, col;
                 int row2, col2;
                 graph.GetRowAndColFromVertex(i, out row, out col);
-                g.DrawRectangle(pen, margin + col * radius, margin + row * radius, radius, radius);
+                //g.DrawRectangle(pen, margin + col * radius, margin + row * radius, radius, radius);
 
                 graph.SetNeighbor(row, col, Direction.North, 1);
                 graph.SetNeighbor(row, col, Direction.East, 1);
@@ -122,10 +117,21 @@ namespace GraphShow
                 graph.SetNeighbor(row, col, Direction.West, 1);
 
             }
+            Bitmap bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            Graphics gg = Graphics.FromImage(bitmap);
+            for(int i=0; i < graph.VerticesNum(); i++)
+            {
+                int row, col;
+                int row2, col2;
+                graph.GetRowAndColFromVertex(i, out row, out col);
+                gg.DrawRectangle(pen, margin + col * radius, margin + row * radius, radius, radius);
+            }
 
-            Random r = new Random(Environment.TickCount);
-            ITravel dfs = new Dfs(graph, preVisit2);
-            dfs.Travel(r.Next(graph.VerticesNum()));
+            pictureBox1.Image = bitmap;
+            pictureBox1.Refresh();
+            //Random r = new Random(Environment.TickCount);
+            //ITravel dfs = new Dfs(graph, preVisit2);
+            //dfs.Travel(r.Next(graph.VerticesNum()));
             pen.Dispose();
             brush.Dispose();
             g.Dispose();
@@ -165,6 +171,7 @@ namespace GraphShow
             Thread.Sleep(10);
             return true;
         }
+
         private bool preVisit(Graph graph, int v)
         {
             int row, col;

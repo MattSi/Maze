@@ -106,6 +106,22 @@ namespace com.propig.util.Graph
             return true;
         }
 
+        public int GetNeighborVertex(int v, Direction direction)
+        {
+            int row, col;
+            int row2, col2;
+            if (v < 0 || v >= this.VerticesNum())
+            {
+                return -1;
+            }
+            GetRowAndColFromVertex(v, out row, out col);
+            if (GetNeighborVertex(row, col, direction, out row2, out col2))
+            {
+                return GetVertexNumber(row2, col2);
+            }
+            return -1;
+        }
+
         public void RemoveNeighbor(int row, int col, Direction direction)
         {
             switch (direction)
