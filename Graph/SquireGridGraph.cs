@@ -155,9 +155,9 @@ namespace com.propig.util.Graph
 
     public enum Direction
     {
-        East,
-        South,
-        West,
-        North
+        East = 0,
+        South = 1,
+        West = 2,
+        North = 3
     }
 }

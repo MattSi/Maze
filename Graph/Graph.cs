@@ -77,5 +77,15 @@
         public abstract void SetEdge(int fromVertex, int toVertex, int weight);
         public abstract void DelEdge(int fromVertex, int toVertex);
         public abstract bool IsConnected(int fromVertex, int toVertex);
+
+        public int GetDegree(int oneVertex)
+        {
+            int degree = 0;
+            for (Edge e = FirstEdge(oneVertex); e != null; e = NextEdge(e), degree++)
+            {
+            }
+
+            return degree;
+        }
     }
 }

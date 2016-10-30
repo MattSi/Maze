@@ -43,6 +43,7 @@
     <Compile Include="Bfs.cs" />
     <Compile Include="Dfs.cs" />
     <Compile Include="DisjSet.cs" />
+    <Compile Include="Distance.cs" />
     <Compile Include="Edge.cs" />
     <Compile Include="Graph.cs" />
     <Compile Include="GraphL.cs" />

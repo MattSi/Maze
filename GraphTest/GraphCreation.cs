@@ -243,5 +243,45 @@ namespace GraphTest
             stringBuilder.Append(v.ToString());
             return true;
         }
+
+        [TestMethod]
+        public void Test_Degree_of_Graph_Non_Directed()
+        {
+
+            Graph g = new GraphL(7, false);
+            g.SetEdge(0, 1, 2);
+            g.SetEdge(0, 2, 1);
+            g.SetEdge(0, 3, 1);
+            g.SetEdge(0, 4, 1);
+            g.SetEdge(5, 1, 1);
+            g.SetEdge(5, 2, 1);
+            g.SetEdge(3, 6, 1);
+            g.SetEdge(5, 4, 1);
+            g.SetEdge(6, 4, 1);
+            g.SetEdge(6, 5, 1);
+
+
+            Assert.AreEqual(4, g.GetDegree(0));
+        }
+
+        [TestMethod]
+        public void Test_Degree_of_Graph_Directerd()
+        {
+
+            Graph g = new GraphL(7, true);
+            g.SetEdge(0, 1, 2);
+            g.SetEdge(0, 2, 1);
+            g.SetEdge(0, 3, 1);
+            g.SetEdge(0, 4, 1);
+            g.SetEdge(5, 1, 1);
+            g.SetEdge(5, 2, 1);
+            g.SetEdge(3, 6, 1);
+            g.SetEdge(5, 4, 1);
+            g.SetEdge(6, 4, 1);
+            g.SetEdge(6, 5, 1);
+
+
+            Assert.AreEqual(3, g.GetDegree(5));
+        }
     }
 }

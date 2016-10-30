@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graph", "Graph\Graph.csproj", "{9BB7C8FF-E829-4CD9-822B-24629960A99D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphTest", "GraphTest\GraphTest.csproj", "{6E064A00-6AA5-4D3A-A0F8-E1014A54C095}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphShow", "GraphShow\GraphShow.csproj", "{46B216F1-AA1B-4046-8A97-66929D31DBE8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeDemo", "GraphShow\MazeDemo.csproj", "{46B216F1-AA1B-4046-8A97-66929D31DBE8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

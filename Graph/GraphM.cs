@@ -86,5 +86,6 @@ namespace com.propig.util.Graph
         {
             return matrix[fromVertex][toVertex] > 0;
         }
+
     }
 }

@@ -9,7 +9,7 @@ namespace com.propig.util.Graph
     public class DisjSet 
     {
         int[] m_s;
-        int numConnectedComponent;
+        int _numConnectedComponent;
         public DisjSet(int vNumber)
         {
             m_s = new int[vNumber];
@@ -17,12 +17,12 @@ namespace com.propig.util.Graph
             {
                 m_s[i] = i;
             }
-            numConnectedComponent = vNumber;
+            _numConnectedComponent = vNumber;
         }
 
         public int GetConnectedComponentNumber()
         {
-            return numConnectedComponent;
+            return _numConnectedComponent;
         }
 
         public int Find(int v)
@@ -42,7 +42,7 @@ namespace com.propig.util.Graph
             if (a != b)
             {
                 m_s[b] = a;
-                numConnectedComponent--;
+                _numConnectedComponent--;
             }
         }
     }
