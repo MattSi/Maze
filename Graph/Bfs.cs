@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace com.propig.util.Graph
 {
@@ -8,13 +7,13 @@ namespace com.propig.util.Graph
     {
         private readonly Graph _graph;
         private readonly BfsVisit _visit;
-        private Queue<int> q;
+        private readonly Queue<int> _q;
 
         public Bfs(Graph g, BfsVisit bfsVisit = null)
         {
             _graph = g;
             _visit = bfsVisit;
-            q=new Queue<int>();
+            _q=new Queue<int>();
         }
 
         public void Travel(int vertex)
@@ -33,17 +32,17 @@ namespace com.propig.util.Graph
 
             _visit(_graph, vertex);
             _graph.Mark[vertex] = VisitedMark.Visited;
-            q.Enqueue(vertex);
-            while (q.Count > 0)
+            _q.Enqueue(vertex);
+            while (_q.Count > 0)
             {
-                int v = q.Dequeue();
+                int v = _q.Dequeue();
                 for (Edge e = _graph.FirstEdge(v); e != null && _graph.IsEdge(e); e = _graph.NextEdge(e))
                 {
                     if (_graph.Mark[_graph.ToVertex(e)] == VisitedMark.Unvisited)
                     {
                         _visit(_graph, _graph.ToVertex(e));
                         _graph.Mark[_graph.ToVertex(e)] = VisitedMark.Visited;
-                        q.Enqueue(_graph.ToVertex(e));
+                        _q.Enqueue(_graph.ToVertex(e));
                     }
                 }
             }

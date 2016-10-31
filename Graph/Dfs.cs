@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace com.propig.util.Graph
+﻿namespace com.propig.util.Graph
 {
     public delegate bool PreVisit(Graph g, int v);
 
