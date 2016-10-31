@@ -1,61 +1,100 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace com.propig.util.Graph
 {
     public class AStar
     {
-        Graph graph;
-        HashSet<int> closedSet;
-        MinHeap<VectexScore> openSet;
-        int[] cameFrom;
-        double[] g_Score;
-        double[] h_Score;
-        double[] f_Score;
+        private readonly Graph _graph;
+        private readonly HashSet<int> _closedSet;
+        private readonly MinHeap<VectexScore> _openSet;
+        private readonly ISet<int> _openSetV;
+        private readonly int[] _cameFrom;
+        private readonly double[] _gScore;
+        private readonly double[] _hScore;
+        private readonly double[] _fScore;
 
-        public AStar(Graph _graph)
+        public AStar(Graph graph)
         {
-            if (_graph == null)
+            if (graph == null)
                 throw new NullGraphException("Graph is null.");
-            graph = _graph;
+            _graph = graph;
 
-            closedSet = new HashSet<int>();
-            openSet = new MinHeap<VectexScore>();
+            _closedSet = new HashSet<int>();
+            _openSet = new MinHeap<VectexScore>();
+            _openSetV = new HashSet<int>();
 
-            g_Score = new double[graph.VerticesNum()];
-            h_Score = new double[graph.VerticesNum()];
-            f_Score = new double[graph.VerticesNum()];
-            cameFrom = new int[graph.VerticesNum()];
+            _gScore = new double[_graph.VerticesNum()];
+            _hScore = new double[_graph.VerticesNum()];
+            _fScore = new double[_graph.VerticesNum()];
+            _cameFrom = new int[_graph.VerticesNum()];
+            for (var i = 0; i < _graph.VerticesNum(); i++)
+            {
+                _cameFrom[i] = -1;
+            }
         }
 
         public bool Travel(int start, int goal)
         {
-            g_Score[start] = 0;
-            h_Score[start] = Distance.GetTaxiCabDistance((SquireGridGraph)graph, start, goal);
-            f_Score[start] = h_Score[start];
+            _gScore[start] = 0;
+            _hScore[start] = Distance.GetTaxiCabDistance((SquireGridGraph) _graph, start, goal);
+            _fScore[start] = _hScore[start];
 
-            openSet.Add(new VectexScore(start, f_Score[start]));
+            _openSet.Add(new VectexScore(start, _fScore[start]));
+            _openSetV.Add(start);
 
-            while (openSet.Count > 0)
+            while (_openSet.Count > 0)
             {
-                var x = openSet.PopMin();
+                var x = _openSet.PopMin();
+                _openSetV.Remove(x.Vertex);
+
                 if (x.Vertex == goal)
                 {
                     return true;
                 }
-                closedSet.Add(x.Vertex);
+                _closedSet.Add(x.Vertex);
 
-                for (Edge e = graph.FirstEdge(x.Vertex); e != null && graph.IsEdge(e); e = graph.NextEdge(e))
+                for (Edge e = _graph.FirstEdge(x.Vertex); e != null && _graph.IsEdge(e); e = _graph.NextEdge(e))
                 {
                     int neighbor = e.To;
-                    if (closedSet.Contains(neighbor))
+                    bool tentativeBetter = false;
+                    double hScore = Distance.GetTaxiCabDistance((SquireGridGraph) _graph, neighbor, goal);
+
+                    if (_closedSet.Contains(neighbor))
                         continue;
+                    double tentativeGScore = _gScore[x.Vertex] + 1;
+
+                    if (!_openSetV.Contains(neighbor))
+                    {
+                        _openSet.Add(new VectexScore(neighbor, tentativeGScore + hScore));
+                        _openSetV.Add(neighbor);
+                        tentativeBetter = true;
+                    }
+                    else if (tentativeGScore < _gScore[neighbor])
+                    {
+                        tentativeBetter = true;
+                    }
+
+                    if (tentativeBetter)
+                    {
+                        _cameFrom[neighbor] = x.Vertex;
+                        _gScore[neighbor] = tentativeGScore;
+                        _hScore[neighbor] = hScore;
+                        _fScore[neighbor] = _gScore[neighbor] + hScore;
+                    }
                 }
             }
             return false;
+        }
+
+        public IList<int> reconstruct_path(int currentNode)
+        {
+            IList<int> result = new List<int>();
+            while (currentNode != -1)
+            {
+                result.Add(currentNode);
+                currentNode = _cameFrom[currentNode];
+            }
+            return result;
         }
     }
 }

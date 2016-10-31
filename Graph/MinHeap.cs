@@ -5,7 +5,7 @@ namespace com.propig.util.Graph
 {
     public class MinHeap<T> where T : IComparable<T>
     {
-        IList<T> elements;
+        private IList<T> elements;
 
         public MinHeap()
         {

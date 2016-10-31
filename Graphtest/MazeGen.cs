@@ -43,6 +43,38 @@ namespace GraphTest
             Assert.IsTrue(ds.GetConnectedComponentNumber() > 1);
         }
 
+        [TestMethod]
+        public void Test_Maze_Travel()
+        {
+            var graph = new SquireGridGraph(row, col, false);
+            DisjSet ds = new DisjSet(graph.VerticesNum());
+            Random r = new Random(Environment.TickCount);
+            while (ds.Find(0) != ds.Find(graph.VerticesNum() - 1))
+            {
+                int v1 = r.Next(0, graph.VerticesNum());
+                if (graph.GetDegree(v1) >= 3)
+                    continue;
+                Direction direction = getRandomDirection();
+                int v2 = graph.GetNeighborVertex(v1, direction);
+                if (v2 != -1)
+                {
+                    graph.SetEdge(v1, v2, 1);
+                    ds.UnionSets(v1, v2);
+                }
+            }
+
+            AStar aStar = new AStar(graph);
+            if (aStar.Travel(0, graph.VerticesNum() - 1))
+            {
+                IList<int> result = aStar.reconstruct_path(graph.VerticesNum() - 1);
+
+                Assert.IsTrue(result.Count > 0);
+            }
+            else
+            {
+                Assert.IsTrue(false);
+            }
+        }
         private Direction getRandomDirection()
         {
             Random r = new Random(Environment.TickCount);
