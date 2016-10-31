@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace com.propig.util.Graph
+﻿namespace com.propig.util.Graph
 {
     public class DisjSet 
     {
-        int[] m_s;
+        readonly int[] _mS;
         int _numConnectedComponent;
         public DisjSet(int vNumber)
         {
-            m_s = new int[vNumber];
+            _mS = new int[vNumber];
             for (int i = 0; i < vNumber; i++)
             {
-                m_s[i] = i;
+                _mS[i] = i;
             }
             _numConnectedComponent = vNumber;
         }
@@ -27,12 +21,12 @@ namespace com.propig.util.Graph
 
         public int Find(int v)
         {
-            if(v != m_s[v])
+            if(v != _mS[v])
             {
-                m_s[v] = Find(m_s[v]);
+                _mS[v] = Find(_mS[v]);
             }
 
-            return m_s[v];
+            return _mS[v];
         }
 
         public void UnionSets(int root1, int root2)
@@ -41,7 +35,7 @@ namespace com.propig.util.Graph
             int b = Find(root2);
             if (a != b)
             {
-                m_s[b] = a;
+                _mS[b] = a;
                 _numConnectedComponent--;
             }
         }

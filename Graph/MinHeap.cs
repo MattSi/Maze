@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace com.propig.util.Graph
 {
@@ -15,7 +12,6 @@ namespace com.propig.util.Graph
             elements = new List<T>();
         }
 
-
         public int Count
         {
             get
@@ -24,15 +20,15 @@ namespace com.propig.util.Graph
             }
         }
 
-        public void Add(T Item)
+        public void Add(T item)
         {
-            elements.Add(Item);
+            elements.Add(item);
             Heapify();
         }
 
-        public void Delete(T Item)
+        public void Delete(T item)
         {
-            int i = elements.IndexOf(Item);
+            int i = elements.IndexOf(item);
             int last = elements.Count - 1;
             elements[i] = elements[last];
             elements.RemoveAt(last);
@@ -58,7 +54,6 @@ namespace com.propig.util.Graph
             elements[secondIndex] = tmp;
         }
 
-
         public void Heapify()
         {
             for (int i = elements.Count - 1; i > 0; i--)
@@ -77,20 +72,20 @@ namespace com.propig.util.Graph
 
     public class VectexScore : IComparable<VectexScore>
     {
-        int v;
-        double score;
+        readonly int _v;
+        readonly double _score;
 
         public VectexScore(int v, double score)
         {
-            this.v = v;
-            this.score = score;
+            _v = v;
+            _score = score;
         }
 
         public int Vertex
         {
             get
             {
-                return v;
+                return _v;
             }
         }
 
@@ -98,7 +93,7 @@ namespace com.propig.util.Graph
         {
             get
             {
-                return score;
+                return _score;
             }
         }
 
@@ -106,7 +101,7 @@ namespace com.propig.util.Graph
         {
             if (other == null)
                 return 1;
-            return score.CompareTo(other.score);
+            return _score.CompareTo(other._score);
         }
     }
 

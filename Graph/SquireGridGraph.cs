@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace com.propig.util.Graph
 {
@@ -110,7 +106,7 @@ namespace com.propig.util.Graph
         {
             int row, col;
             int row2, col2;
-            if (v < 0 || v >= this.VerticesNum())
+            if (v < 0 || v >= VerticesNum())
             {
                 return -1;
             }

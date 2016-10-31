@@ -8,30 +8,30 @@ namespace com.propig.util.Graph
 
     public class Dfs : ITravel
     {
-        private Graph graph;
+        private readonly Graph _graph;
 
-        private PreVisit preVisit;
-        private PostVisit postVisit;
+        private readonly PreVisit _preVisit;
+        private readonly PostVisit _postVisit;
 
         public Dfs(Graph g, PreVisit preVisit = null, PostVisit postVisit = null)
         {
-            this.graph = g;
-            this.preVisit = preVisit;
-            this.postVisit = postVisit;
+            _graph = g;
+            _preVisit = preVisit;
+            _postVisit = postVisit;
         }
 
         public void Travel(int vertex = 0)
         {
-            if (graph == null)
+            if (_graph == null)
                 return;
-            if (vertex < 0 || vertex > graph.VerticesNum())
+            if (vertex < 0 || vertex > _graph.VerticesNum())
             {
                 throw new ArgumentOutOfRangeException("Error Vertex.");
             }
 
-            for (int i = 0; i < graph.VerticesNum(); i++)
+            for (int i = 0; i < _graph.VerticesNum(); i++)
             {
-                graph.Mark[i] = VisitedMark.Unvisited;
+                _graph.Mark[i] = VisitedMark.Unvisited;
             }
 
             do_Travel(vertex);
@@ -39,23 +39,23 @@ namespace com.propig.util.Graph
 
         private void do_Travel(int vertex)
         {
-            graph.Mark[vertex] = VisitedMark.Visited;
-            if (preVisit != null)
+            _graph.Mark[vertex] = VisitedMark.Visited;
+            if (_preVisit != null)
             {
-                preVisit(graph, vertex);
+                _preVisit(_graph, vertex);
             }
 
-            for (Edge e = graph.FirstEdge(vertex); e != null && graph.IsEdge(e); e = graph.NextEdge(e))
+            for (Edge e = _graph.FirstEdge(vertex); e != null && _graph.IsEdge(e); e = _graph.NextEdge(e))
             {
-                if (graph.Mark[graph.ToVertex(e)] == VisitedMark.Unvisited)
+                if (_graph.Mark[_graph.ToVertex(e)] == VisitedMark.Unvisited)
                 {
-                    do_Travel(graph.ToVertex(e));
+                    do_Travel(_graph.ToVertex(e));
                 }
             }
 
-            if (postVisit != null)
+            if (_postVisit != null)
             {
-                postVisit(graph, vertex);
+                _postVisit(_graph, vertex);
             }
         }
     }

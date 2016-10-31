@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace com.propig.util.Graph
+﻿namespace com.propig.util.Graph
 {
     public class GraphL : Graph
     {
@@ -148,7 +146,7 @@ namespace com.propig.util.Graph
             {
                 return false;
             }
-            else if (temp.Next.Element.Vertex > toVertex)
+            if (temp.Next.Element.Vertex > toVertex)
             {
                 return false;
             }
