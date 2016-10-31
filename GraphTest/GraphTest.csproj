@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="GraphCreation.cs" />
     <Compile Include="MazeGen.cs" />
+    <Compile Include="MinHeapTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SquareGridGraphTest.cs" />
   </ItemGroup>
