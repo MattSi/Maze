@@ -26,7 +26,7 @@ namespace com.propig.util.Graph
                 return;
             if (vertex < 0 || vertex > _graph.VerticesNum())
             {
-                throw new ArgumentOutOfRangeException("Error Vertex.");
+                throw new InvalidVertexException("vertex is invalid.");
             }
 
             for (int i = 0; i < _graph.VerticesNum(); i++)

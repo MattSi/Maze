@@ -49,6 +49,7 @@
     <Compile Include="GraphL.cs" />
     <Compile Include="GraphM.cs" />
     <Compile Include="IGraph.cs" />
+    <Compile Include="InvalidVertexException.cs" />
     <Compile Include="ITravel.cs" />
     <Compile Include="LList.cs" />
     <Compile Include="MinHeap.cs" />

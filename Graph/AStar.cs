@@ -36,7 +36,7 @@ namespace com.propig.util.Graph
         public bool Travel(int start, int goal)
         {
             _gScore[start] = 0;
-            _hScore[start] = Distance.GetTaxiCabDistance((SquireGridGraph) _graph, start, goal);
+            _hScore[start] = Distance.GetTaxiCabDistance(_graph, start, goal);
             _fScore[start] = _hScore[start];
 
             _openSet.Add(new VectexScore(start, _fScore[start]));
@@ -57,11 +57,11 @@ namespace com.propig.util.Graph
                 {
                     int neighbor = e.To;
                     bool tentativeBetter = false;
-                    double hScore = Distance.GetTaxiCabDistance((SquireGridGraph) _graph, neighbor, goal);
+                    double hScore = Distance.GetTaxiCabDistance(_graph, neighbor, goal);
 
                     if (_closedSet.Contains(neighbor))
                         continue;
-                    double tentativeGScore = _gScore[x.Vertex] + 1;
+                    var tentativeGScore = _gScore[x.Vertex] + 1;
 
                     if (!_openSetV.Contains(neighbor))
                     {
@@ -74,13 +74,11 @@ namespace com.propig.util.Graph
                         tentativeBetter = true;
                     }
 
-                    if (tentativeBetter)
-                    {
-                        _cameFrom[neighbor] = x.Vertex;
-                        _gScore[neighbor] = tentativeGScore;
-                        _hScore[neighbor] = hScore;
-                        _fScore[neighbor] = _gScore[neighbor] + hScore;
-                    }
+                    if (!tentativeBetter) continue;
+                    _cameFrom[neighbor] = x.Vertex;
+                    _gScore[neighbor] = tentativeGScore;
+                    _hScore[neighbor] = hScore;
+                    _fScore[neighbor] = _gScore[neighbor] + hScore;
                 }
             }
             return false;
