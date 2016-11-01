@@ -83,7 +83,7 @@ namespace GraphShow
             Brush brush = new SolidBrush(Color.Blue);
             var bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             Graphics gg = Graphics.FromImage(bitmap);
-            for (int i = 0; i < _graph.VerticesNum(); i++)
+            for (int i = 1; i < _graph.VerticesNum() - 1; i++)
             {
                 int row, col;
                 _graph.GetRowAndColFromVertex(i, out row, out col);
