@@ -13,7 +13,7 @@ namespace com.propig.util.Graph
         {
             _graph = g;
             _visit = bfsVisit;
-            _q=new Queue<int>();
+            _q = new Queue<int>();
         }
 
         public void Travel(int vertex)

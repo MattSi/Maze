@@ -5,41 +5,41 @@ namespace com.propig.util.Graph
 {
     public class MinHeap<T> where T : IComparable<T>
     {
-        private IList<T> elements;
+        private readonly IList<T> _elements;
 
         public MinHeap()
         {
-            elements = new List<T>();
+            _elements = new List<T>();
         }
 
         public int Count
         {
             get
             {
-                return elements.Count;
+                return _elements.Count;
             }
         }
 
         public void Add(T item)
         {
-            elements.Add(item);
+            _elements.Add(item);
             Heapify();
         }
 
         public void Delete(T item)
         {
-            int i = elements.IndexOf(item);
-            int last = elements.Count - 1;
-            elements[i] = elements[last];
-            elements.RemoveAt(last);
+            int i = _elements.IndexOf(item);
+            int last = _elements.Count - 1;
+            _elements[i] = _elements[last];
+            _elements.RemoveAt(last);
             Heapify();
         }
 
         public T PopMin()
         {
-            if (elements.Count > 0)
+            if (_elements.Count > 0)
             {
-                T item = elements[0];
+                T item = _elements[0];
                 Delete(item);
                 return item;
             }
@@ -49,19 +49,19 @@ namespace com.propig.util.Graph
 
         private void SwapElements(int firstIndex, int secondIndex)
         {
-            T tmp = elements[firstIndex];
-            elements[firstIndex] = elements[secondIndex];
-            elements[secondIndex] = tmp;
+            T tmp = _elements[firstIndex];
+            _elements[firstIndex] = _elements[secondIndex];
+            _elements[secondIndex] = tmp;
         }
 
         public void Heapify()
         {
-            for (int i = elements.Count - 1; i > 0; i--)
+            for (int i = _elements.Count - 1; i > 0; i--)
             {
                 int parentPosition = (i + 1) / 2 - 1;
                 parentPosition = parentPosition >= 0 ? parentPosition : 0;
 
-                if (elements[parentPosition].CompareTo(elements[i]) > 0)
+                if (_elements[parentPosition].CompareTo(_elements[i]) > 0)
                 {
                     SwapElements(parentPosition, i);
                 }

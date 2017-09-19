@@ -49,7 +49,7 @@ namespace GraphShow
             Graphics gg = Graphics.FromImage(bm);
             Brush brush = new SolidBrush(Color.Blue);
             int v = _result[_result.Count - 1];
-            _result.RemoveAt(_result.Count-1);
+            _result.RemoveAt(_result.Count - 1);
             _graph.GetRowAndColFromVertex(v, out row, out col);
             gg.FillRectangle(brush, _margin + col*Radius + 3, _margin + row*Radius + 3, 3, 3);
             pictureBox1.Image = bm;
