@@ -1,9 +1,11 @@
 # Maze
 This is a maze demo using a graph library and A* algorithm
 
+**â–¶ Live play: https://mattsi.github.io/Maze/**
 
-ÃÔ¹¬
-¸Ã³ÌĞòÓÃÁË×ÔÖÆµÄÍ¼¿â£¬ºÍA*Ëã·¨
+è¿·å®«
+è¯¥ç¨‹åºç”¨äº†è‡ªåˆ¶çš„å›¾åº“ï¼Œå’ŒA*ç®—æ³•
+
+åœ¨çº¿è¯•ç©ï¼šhttps://mattsi.github.io/Maze/
 
 ![Screenshot](/img/screenshot.png)
-
