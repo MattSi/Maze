@@ -1,0 +1,176 @@
+﻿@page "/"
+@using System.Text
+@using com.propig.util.Graph
+
+<PageTitle>Maze · A*</PageTitle>
+
+<main class="page">
+    <header>
+        <h1 tabindex="-1">Maze</h1>
+        <p>Random maze generation with a disjoint set, solved with A*. The graph library is the original C# code, running in the browser via WebAssembly.</p>
+    </header>
+
+    <div class="toolbar">
+        <button class="primary" @onclick="Generate" disabled="@animating">Generate maze</button>
+        <button @onclick="ToggleSolve" disabled="@(graph is null)">@(animating ? "Stop" : "Solve with A*")</button>
+
+        <label>
+            Size
+            <select @bind="sizeKey" disabled="@animating">
+                <option value="small">Small · 20 × 32</option>
+                <option value="medium">Medium · 35 × 56</option>
+                <option value="large">Large · 50 × 80</option>
+            </select>
+        </label>
+
+        <label>
+            Speed
+            <input type="range" min="1" max="10" @bind="speed" @bind:event="oninput" />
+        </label>
+    </div>
+
+    <p class="status" aria-live="polite">@status</p>
+
+    @if (graph is not null)
+    {
+        <svg class="maze" viewBox="@($"-1 -1 {cols * Cell + 2} {rows * Cell + 2}")" role="img" aria-label="Maze">
+            <rect class="start" x="0" y="0" width="@Cell" height="@Cell" />
+            <rect class="goal" x="@((cols - 1) * Cell)" y="@((rows - 1) * Cell)" width="@Cell" height="@Cell" />
+            <path class="walls" d="@wallPath" />
+            @if (shown > 0)
+            {
+                <polyline class="route" points="@RoutePoints()" />
+            }
+        </svg>
+    }
+    else
+    {
+        <div class="empty">Click <strong>Generate maze</strong> to start.</div>
+    }
+
+    <footer>
+        <a href="https://github.com/MattSi/Maze">Source on GitHub</a>
+    </footer>
+</main>
+
+@code {
+    private const int Cell = 10;
+
+    private SquireGridGraph? graph;
+    private int rows;
+    private int cols;
+    private string sizeKey = "medium";
+    private int speed = 6;
+    private string wallPath = "";
+    private List<int> route = new();
+    private int shown;
+    private bool animating;
+    private string status = "";
+    private readonly Random random = new();
+
+    private void Generate()
+    {
+        (rows, cols) = sizeKey switch
+        {
+            "small" => (20, 32),
+            "large" => (50, 80),
+            _ => (35, 56),
+        };
+
+        // Same algorithm as the WinForms demo: knock down random walls until
+        // the entrance and exit are in the same disjoint set.
+        var g = new SquireGridGraph(rows, cols, false);
+        var sets = new DisjSet(g.VerticesNum());
+        int last = g.VerticesNum() - 1;
+        while (sets.Find(0) != sets.Find(last))
+        {
+            int v1 = random.Next(0, g.VerticesNum());
+            if (g.GetDegree(v1) >= 3)
+                continue;
+            var direction = (Direction)random.Next(0, 4);
+            int v2 = g.GetNeighborVertex(v1, direction);
+            if (v2 != -1)
+            {
+                g.SetEdge(v1, v2, 1);
+                sets.UnionSets(v1, v2);
+            }
+        }
+
+        graph = g;
+        wallPath = BuildWalls(g);
+        route.Clear();
+        shown = 0;
+        status = $"{rows} × {cols} maze generated.";
+    }
+
+    private string BuildWalls(SquireGridGraph g)
+    {
+        var sb = new StringBuilder();
+        for (int v = 0; v < g.VerticesNum(); v++)
+        {
+            g.GetRowAndColFromVertex(v, out int row, out int col);
+            int x = col * Cell, y = row * Cell;
+
+            if (IsWall(g, v, Direction.North)) sb.Append($"M{x} {y}h{Cell}");
+            if (IsWall(g, v, Direction.West)) sb.Append($"M{x} {y}v{Cell}");
+            if (col == cols - 1 && IsWall(g, v, Direction.East)) sb.Append($"M{x + Cell} {y}v{Cell}");
+            if (row == rows - 1 && IsWall(g, v, Direction.South)) sb.Append($"M{x} {y + Cell}h{Cell}");
+        }
+        return sb.ToString();
+    }
+
+    private static bool IsWall(SquireGridGraph g, int v, Direction direction)
+    {
+        int n = g.GetNeighborVertex(v, direction);
+        return n == -1 || !g.IsConnected(v, n);
+    }
+
+    private async Task ToggleSolve()
+    {
+        if (animating)
+        {
+            animating = false;
+            return;
+        }
+        if (graph is null)
+            return;
+
+        int goal = graph.VerticesNum() - 1;
+        var astar = new AStar(graph);
+        if (!astar.Travel(0, goal))
+        {
+            status = "No path found.";
+            return;
+        }
+
+        route = astar.reconstruct_path(goal).ToList();
+        if (route.Count > 0 && route[0] != 0)
+            route.Reverse();
+        shown = 0;
+        animating = true;
+        status = $"Path length: {route.Count} cells.";
+
+        while (animating && shown < route.Count)
+        {
+            shown = Math.Min(route.Count, shown + Math.Max(1, speed / 3));
+            StateHasChanged();
+            await Task.Delay(Math.Max(1, 60 - speed * 6));
+        }
+        animating = false;
+    }
+
+    private string RoutePoints()
+    {
+        if (graph is null)
+            return "";
+        var sb = new StringBuilder();
+        for (int i = 0; i < shown && i < route.Count; i++)
+        {
+            graph.GetRowAndColFromVertex(route[i], out int row, out int col);
+            sb.Append(col * Cell + Cell / 2).Append(',').Append(row * Cell + Cell / 2).Append(' ');
+        }
+        return sb.ToString();
+    }
+
+    protected override void OnInitialized() => Generate();
+}
